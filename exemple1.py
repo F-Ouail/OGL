@@ -1,18 +1,42 @@
 import graphics
 
-def on_click(*args):
-    if btn.is_click():
-        print("BTN clicked")
+def on_click(window:graphics.window.Window, button:graphics.ui.Button, *args):
+    if button.is_click():
+        window.destroy()
 
-
-window = graphics.window.Window("exemple 1", auto_draw=True, resizability=True)
-btn = graphics.ui.Button()
-scene = graphics.scene.Scene(window, "scene 1")
-
-scene.append_object(btn, True, True)
-scene.set_should_draw(True)
-btn._mouse = graphics.window.mouse.pos
-window.mouse_handler = on_click # type: ignore
-
-while window.running:
-    window.show()
+def main() -> int:
+    # Create Objects
+    ## Create the Window
+    window = graphics.window.Window(
+        title = "exemple 1",
+        auto_draw = True,
+        resizability = True
+    )
+    ## Create the ui.Button
+    button = graphics.ui.Button(
+        text = "Exit"
+    )
+    ## Create the Scene (a Container)
+    scene = graphics.scene.Scene(
+        window,
+        name = "scene 1",
+        background = (28, 120, 71)
+    )
+    # Link Objects
+    scene.append_object(
+        button,
+        centred_horizontally = True,
+        centred_vertically = True
+    )
+    # Setup Objects
+    window.mouse_handler = lambda *args: on_click(window, button, *args)
+    scene.set_should_draw(True)
+    # the Window Loop
+    while window.running:
+        window.show()
+    return 0
+# The Entry Point
+if __name__ == "__main__":
+    exit(
+        main()
+    )
