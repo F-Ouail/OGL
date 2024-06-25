@@ -135,15 +135,19 @@ class Window:
     @staticmethod
     def on_exit(*args):
         pass
+    @staticmethod
     def on_reasize(*args):
         pass
+    @staticmethod
     def keyboard_handler(*args):
         pass
     @staticmethod
     def mouse_handler(pos:tuple[int, int], *args):
         pass
+    @staticmethod
     def on_key_down(*args):
         pass
+    @staticmethod
     def on_key_up(*args):
         pass
 
