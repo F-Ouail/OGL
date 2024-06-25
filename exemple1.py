@@ -1,5 +1,9 @@
 import graphics
 
+"""
+    A simple window with one scene
+"""
+
 def on_click(window:graphics.window.Window, button:graphics.ui.Button, *args):
     if button.is_click():
         window.destroy()
