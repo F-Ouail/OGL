@@ -1,29 +1,29 @@
-import graphics
+import ogl
 
 KeysMap = {
     "UP" : [
-        graphics.pygame.K_UP,
-        graphics.pygame.K_w,
-        graphics.pygame.K_z, # for azerty keyboards
+        ogl.pygame.K_UP,
+        ogl.pygame.K_w,
+        ogl.pygame.K_z, # for azerty keyboards
     ],
     "DOWN" : [
-        graphics.pygame.K_DOWN,
-        graphics.pygame.K_s,
+        ogl.pygame.K_DOWN,
+        ogl.pygame.K_s,
     ],
     "RIGHT" : [
-        graphics.pygame.K_RIGHT,
-        graphics.pygame.K_d,
+        ogl.pygame.K_RIGHT,
+        ogl.pygame.K_d,
     ],
     "LEFT" : [
-        graphics.pygame.K_LEFT,
-        graphics.pygame.K_a,
-        graphics.pygame.K_q, # for azerty keyboards
+        ogl.pygame.K_LEFT,
+        ogl.pygame.K_a,
+        ogl.pygame.K_q, # for azerty keyboards
     ],
     "BREAK" : [
-        graphics.pygame.K_ESCAPE,
+        ogl.pygame.K_ESCAPE,
     ],
     "RESET" : [
-        graphics.pygame.K_F4,
+        ogl.pygame.K_F4,
     ]
 }
 
@@ -43,9 +43,9 @@ def MapedKey(key:str, value) -> bool:
         return False
     return value in KeysMap[key]
 
-class Player(graphics.basic.Square):
+class Player(ogl.basic.Square):
     def __init__(self, pos:tuple[int, int], speed:int) -> None:
-        super().__init__(graphics.color.Color(252, 226, 196), pos[0], pos[1], 
+        super().__init__(ogl.color.Color(252, 226, 196), pos[0], pos[1], 
                          width = 50, height = 50)
         self.object_string_name = "Player"
         self.speed:int = speed
@@ -55,13 +55,13 @@ class Player(graphics.basic.Square):
         self.x += self.speed * delta * (0 if _x is None else -1 if _x else 1)
         self.y += self.speed * delta * (0 if _y is None else -1 if _y else 1)
             
-    def draw(self, window: graphics.window.Window, *args) -> None:
+    def draw(self, window: ogl.window.Window, *args) -> None:
         return super().draw(window, *args)
 
 
-def on_click(window:graphics.window.Window, scene_1:graphics.scene.Scene,
-             scene_2:graphics.scene.Scene, button_1:graphics.ui.Button,
-             button_2:graphics.ui.Button, *args) -> None:
+def on_click(window:ogl.window.Window, scene_1:ogl.scene.Scene,
+             scene_2:ogl.scene.Scene, button_1:ogl.ui.Button,
+             button_2:ogl.ui.Button, *args) -> None:
     if scene_1.get_should_draw():
         if button_1.is_click():
             scene_1.set_should_draw(False)
@@ -69,8 +69,8 @@ def on_click(window:graphics.window.Window, scene_1:graphics.scene.Scene,
         if button_2.is_click():
             window.destroy()
 
-def keydown(window:graphics.window.Window, scene_1:graphics.scene.Scene,
-             scene_2:graphics.scene.Scene, player:Player, key, *args):
+def keydown(window:ogl.window.Window, scene_1:ogl.scene.Scene,
+             scene_2:ogl.scene.Scene, player:Player, key, *args):
     if MapedKey("Reset", key):
         if not (scene_1.get_should_draw() or scene_2.get_should_draw()):
             scene_1.set_should_draw(True)
@@ -81,8 +81,8 @@ def keydown(window:graphics.window.Window, scene_1:graphics.scene.Scene,
         if MapedKey("Break", key):
             scene_1.set_should_draw(True)
             scene_2.set_should_draw(False)
-def keyboard_handler(window:graphics.window.Window, scene_1:graphics.scene.Scene,
-             scene_2:graphics.scene.Scene, player:Player, keys, *args):
+def keyboard_handler(window:ogl.window.Window, scene_1:ogl.scene.Scene,
+             scene_2:ogl.scene.Scene, player:Player, keys, *args):
     if scene_1.get_should_draw():
         pass
     elif scene_2.get_should_draw():
@@ -98,7 +98,7 @@ def keyboard_handler(window:graphics.window.Window, scene_1:graphics.scene.Scene
 def main() -> int:
     # Create Objects
     ## Create the Window
-    window = graphics.window.Window(
+    window = ogl.window.Window(
         title = "exemple 2",
         auto_draw = True,
         resizability = False
@@ -110,21 +110,21 @@ def main() -> int:
     player.x = width - player.width // 2
     player.y = height - player.height // 2
     ## Create the 2 ui.Button
-    button_1 = graphics.ui.Button(
+    button_1 = ogl.ui.Button(
         text = "Play",
         y = 120
     )
-    button_2 = graphics.ui.Button(
+    button_2 = ogl.ui.Button(
         text = "Exit",
         y = 240
     )
     ## Create the Scene (a Container)
-    scene_1 = graphics.scene.Scene(
+    scene_1 = ogl.scene.Scene(
         window,
         name = "scene 1",
         background = (28, 120, 71)
     )
-    scene_2 = graphics.scene.Scene(
+    scene_2 = ogl.scene.Scene(
         window,
         name = "scene 2",
         background = (0x34, 0x1A, 0x00)
