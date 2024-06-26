@@ -11,6 +11,7 @@
 ## Exemples
 
 ### exemple1.py
+
 * `A simple window with one scene`
 * Create ***Window*** and make there loop
 * Create ***Scene*** to set window objects to
@@ -18,4 +19,5 @@
 * Create function to handle the button clicks
 
 ### exemple2.py
-* `A Simple window with manu and player (control)`
+
+* `A Simple window with menu and player (control)`
