@@ -1,27 +1,27 @@
-import graphics
+import ogl
 
 """
     A simple window with one scene
 """
 
-def on_click(window:graphics.window.Window, button:graphics.ui.Button, *args):
+def on_click(window:ogl.window.Window, button:ogl.ui.Button, *args):
     if button.is_click():
         window.destroy()
 
 def main() -> int:
     # Create Objects
     ## Create the Window
-    window = graphics.window.Window(
+    window = ogl.window.Window(
         title = "exemple 1",
         auto_draw = True,
         resizability = True
     )
     ## Create the ui.Button
-    button = graphics.ui.Button(
+    button = ogl.ui.Button(
         text = "Exit"
     )
     ## Create the Scene (a Container)
-    scene = graphics.scene.Scene(
+    scene = ogl.scene.Scene(
         window,
         name = "scene 1",
         background = (28, 120, 71)
