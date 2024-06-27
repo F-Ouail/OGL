@@ -49,11 +49,11 @@ class Player(ogl.basic.Square):
                          width = 50, height = 50)
         self.object_string_name = "Player"
         self.speed:int = speed
-    def move(self, x:tuple[bool, bool], y:tuple[bool, bool], delta:float):
-        _x = None if x[0] == x[1] else False if x[0] else True
-        _y = None if y[0] == y[1] else False if y[0] else True
-        self.x += self.speed * delta * (0 if _x is None else -1 if _x else 1)
-        self.y += self.speed * delta * (0 if _y is None else -1 if _y else 1)
+    def move(self, vertically:tuple[bool, bool], horizontally:tuple[bool, bool], delta:float):
+        x = None if vertically[0] == vertically[1] else False if vertically[0] else True
+        y = None if horizontally[0] == horizontally[1] else False if horizontally[0] else True
+        self.x += self.speed * delta * (0 if x is None else -1 if x else 1)
+        self.y += self.speed * delta * (0 if y is None else -1 if y else 1)
             
     def draw(self, window: ogl.window.Window, *args) -> None:
         return super().draw(window, *args)
@@ -126,7 +126,7 @@ def main() -> int:
     scene_2 = ogl.scene.Scene(
         window,
         name = "scene 2",
-        background = (0x34, 0x1A, 0x00)
+        background = (0x56,0x7d,0x46 )
     )
     # Link Objects
     scene_1.append_object(
