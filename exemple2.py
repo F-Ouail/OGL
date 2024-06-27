@@ -75,7 +75,7 @@ def keydown(window:ogl.window.Window, scene_1:ogl.scene.Scene,
         if not (scene_1.get_should_draw() or scene_2.get_should_draw()):
             scene_1.set_should_draw(True)
     if scene_1.get_should_draw():
-        pass
+        window.destroy()
     elif scene_2.get_should_draw():
         if MapedKey("Break", key):
             scene_1.set_should_draw(True)
