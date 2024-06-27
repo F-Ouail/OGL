@@ -17,6 +17,23 @@ class Square(window.WindowObject):
         if type(self.color) != color.Color:
             self.color = color.Color(0, 0, 0)
         pygame.draw.rect(window.self, self.color.value(), self.surface())
+class Circle(window.WindowObject):
+    def __init__(self, color: color.Color = color.Color(255, 255, 255), x: int = 0,\
+                 y: int = 0, radius:int = 50) -> None:
+        super().__init__(color, x, y)
+        self.object_string_name = "Circle"
+        self.radius = radius
+        self.resize(radius, radius)
+    def centre(self) -> tuple[int, int]:
+        return (self.x, self.y)
+    def resize(self, radius:int, *args) -> None:
+        self.radius = radius
+    def surface(self) -> pygame.surface.Surface | None:
+        return None
+    def draw(self, window:window.Window, *args) -> None:
+        if type(self.color) != color.Color:
+            self.color = color.Color(0, 0, 0)
+        pygame.draw.circle(window.self, self.color.value(), self.centre(), self.radius)
 class Image(window.WindowObject):
     def __init__(self, path:str = "", x: int = 0, y: int = 0) -> None:
         super().__init__(False, x, y)
