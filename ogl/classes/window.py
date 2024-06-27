@@ -163,9 +163,11 @@ class WindowObject:
         if type(self.color) != color.Color:
             self.color = color.Color(0, 0, 0)
         self.object_string_name = "Window Object"
-    def is_click(self) -> bool:
+    def is_mouse_on(self) -> bool:
         x, y = self._mouse()
         return self.x <= x <= self.x + self.width and self.y <= y <= self.y + self.height
+    def is_click(self) -> bool:
+        return self.is_mouse_on()
     @staticmethod
     def _mouse() -> tuple[int, int]:
         return (-1, -1)
@@ -175,4 +177,3 @@ class WindowObject:
         return
     def __str__(self) -> str:
         return f"<{self.object_string_name}>"
-    
