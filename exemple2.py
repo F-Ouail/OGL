@@ -63,10 +63,10 @@ def on_click(window:ogl.window.Window, scene_1:ogl.scene.Scene,
              scene_2:ogl.scene.Scene, button_1:ogl.ui.Button,
              button_2:ogl.ui.Button, *args) -> None:
     if scene_1.get_should_draw():
-        if button_1.is_click():
+        if button_1.is_mouse_on():
             scene_1.set_should_draw(False)
             scene_2.set_should_draw(True)
-        if button_2.is_click():
+        if button_2.is_mouse_on():
             window.destroy()
 
 def keydown(window:ogl.window.Window, scene_1:ogl.scene.Scene,
