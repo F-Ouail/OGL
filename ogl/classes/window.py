@@ -42,20 +42,17 @@ class Window:
                     keybored_hendler  [all keys statue] : on every frame\n
 
         """
-        self.module_error = False
-        signal.signal(signal.SIGINT, self.ctrl_c)
-        signal.signal(signal.SIGTERM, self.ctrl_c)
         self.running = True
+        self.clock = pygame.time.Clock()
+        self.max_fps = None
+        self.objs = []
+
         self.height = height
         self.width = width
         self.title = title
         self.auto_draw = auto_draw
         self.auto_event = auto_event
-        self.objs = []
-        self.clock = pygame.time.Clock()
-        self.max_fps = None
         self.size = (self.width, self.height)
-        pygame.display.set_caption(self.title)
         self.self = pygame.display.set_mode(self.size, pygame.RESIZABLE) if resizability else pygame.display.set_mode(self.size)
     def set_icon(self, image_or_path, use_image = False) -> None:
         if not self.running:
@@ -77,6 +74,7 @@ class Window:
         if not self.running:
             return
         mouse.update()
+        pygame.display.set_caption(self.title)
         if self.auto_draw:
             for obj in self.objs:
                 obj.draw()
@@ -166,8 +164,6 @@ class WindowObject:
     def is_mouse_on(self) -> bool:
         x, y = self._mouse()
         return self.x <= x <= self.x + self.width and self.y <= y <= self.y + self.height
-    def is_click(self) -> bool:
-        return self.is_mouse_on()
     @staticmethod
     def _mouse() -> tuple[int, int]:
         return (-1, -1)
