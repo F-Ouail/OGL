@@ -10,18 +10,17 @@ class Label(window.WindowObject):
         if type(self.color) != color.Color:
             return
         self.object_string_name = "Label"
-        self.text = text
-        self.tsize = text_size
+        self.text, self.tsize = text, text_size
         utfont = None if text_font == "" else text_font
-        self.font = pygame.font.SysFont(utfont, text_size) # type: ignore
+        self.font = pygame.font.SysFont(utfont, text_size)
     def surface(self) -> pygame.Surface | None:
         if type(self.color) != color.Color:
             return None
         return self.font.render(self.text, True, self.color.value())
-    def update(*args):
-        return
+    def is_mouse_on(self) -> bool:
+
+        return super().is_mouse_on()
     def draw(self, window:window.Window, *args):
-        self.update(self)
         surface = self.surface()
         if surface == None:
             return None
@@ -33,24 +32,33 @@ class Button(window.WindowObject):
                   label_size:int = 18) -> None:
         super().__init__(color, x, y)
         self.object_string_name = "Button"
-        self.width = w
         self.height = h
+        self.width = w
+        self.rect = basic.Square(color, x, y, w, h)
         self.label = Label(text, label_color, label_font, label_size)
     def is_mouse_on(self) -> bool:
-        mouse = self._mouse()
-        return self.x <= mouse[0] <= self.x + self.width and self.y <= mouse[1] <= self.y + self.height
+        return self.rect.is_mouse_on()
+    def resize(self, w:int, h:int):
+        self.rect.width = w
+        self.rect.height = h
     def draw(self, window:window.Window, *args) -> None:
         if type(self.color) != color.Color:
             return None
-        used_color = self.color.opposite().value() if self.is_mouse_on() else self.color.value()
-        pygame.draw.rect(window.self, used_color,
-                         pygame.Rect((self.x, self.y), (self.width, self.height)))
+        self.rect._mouse = self._mouse
+        self.rect.color = self.color.shift() if self.is_mouse_on() else self.color
+
+
         surface = self.label.surface()
         if surface is None:
             return None
-        h, w = surface.get_height(), surface.get_width()
-        self.label.x = self.x+self.width / 2 - surface.get_width() / 2
-        self.label.y = self.y+self.height / 2 - surface.get_height() / 2
+        self.label.x = self.x + (self.width - surface.get_width()) / 2
+        self.label.y = self.y + (self.height - surface.get_height()) / 2
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self.rect.width = self.width
+        self.rect.height = self.height
+
+        self.rect.draw(window)
         self.label.draw(window)
 class RadioButton(window.WindowObject):
     def __init__(self, text:str = "RadioButton", x:int = 0, y:int = 0,
@@ -64,11 +72,7 @@ class RadioButton(window.WindowObject):
         self.min_circle = basic.Circle(x = x, y = y, radius = round(radius/3, 0))
         self.label = Label(text, label_color, label_font, label_size)
     def is_mouse_on(self) -> bool:
-        mouse = self._mouse()
-        l1 = self.x - mouse[0]
-        l2 = self.y - mouse[1]
-        d = math.sqrt(l1*l1 + l2*l2)
-        return d <= self.circle.radius
+        return self.circle.is_mouse_on() or self.label.is_mouse_on()
     def draw(self, window:window.Window, *args) -> None:
         if type(self.color) != color.Color:
             return None
