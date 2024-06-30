@@ -5,7 +5,7 @@ import ogl
 """
 
 def on_click(window:ogl.window.Window, button:ogl.ui.Button, *args):
-    if button.is_click():
+    if button.is_mouse_on():
         window.destroy()
 
 def main() -> int:
