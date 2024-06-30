@@ -1,5 +1,6 @@
 import pygame
 from . import window, color
+import math
 
 class Square(window.WindowObject):
     def __init__(self, color: color.Color = color.Color(255, 255, 255), x: int = 0,\
@@ -16,7 +17,7 @@ class Square(window.WindowObject):
     def draw(self, window:window.Window, *args) -> None:
         if type(self.color) != color.Color:
             self.color = color.Color(0, 0, 0)
-        pygame.draw.rect(window.self, self.color.value(), self.surface())
+        pygame.draw.rect(window.self, self.color.value(), ((self.x, self.y), (self.width, self.height)))
 class Circle(window.WindowObject):
     def __init__(self, color: color.Color = color.Color(255, 255, 255), x: int = 0,\
                  y: int = 0, radius:int = 50) -> None:
@@ -30,6 +31,12 @@ class Circle(window.WindowObject):
         self.radius = radius
     def surface(self) -> pygame.surface.Surface | None:
         return None
+    def is_mouse_on(self) -> bool:
+        mouse = self._mouse()
+        l1 = self.x - mouse[0]
+        l2 = self.y - mouse[1]
+        d = math.sqrt(l1*l1 + l2*l2)
+        return d <= self.radius
     def draw(self, window:window.Window, *args) -> None:
         if type(self.color) != color.Color:
             self.color = color.Color(0, 0, 0)
